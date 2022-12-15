@@ -7,12 +7,11 @@ public class TornadoForce : MonoBehaviour
 {
     public LayerMask objectLayer;
     public float pullForce;
-
-
+    public float forceRadius = 3f;
 
     private void FixedUpdate()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 3f, objectLayer);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, forceRadius, objectLayer);
         foreach (Collider collider in hitColliders)
         {
             if (!collider.GetComponent<caughtObject>().isCaught)
@@ -20,7 +19,7 @@ public class TornadoForce : MonoBehaviour
                 GameObject hitObject = collider.gameObject;
                 Vector3 targetDir = hitObject.transform.position - transform.position;
 
-                hitObject.GetComponent<Rigidbody>().AddForce(targetDir * -pullForce, ForceMode.Impulse);
+                hitObject.GetComponent<Rigidbody>().AddForce(targetDir * -pullForce, ForceMode.Force);
             }
         }
 

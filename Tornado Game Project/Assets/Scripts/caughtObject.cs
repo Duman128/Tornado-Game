@@ -11,20 +11,25 @@ public class caughtObject : MonoBehaviour
     Collider myCollision;
     public float pullSpeed = 2;
     public bool isCaught;
-
+    TornadoForce tornadoForce;
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.tag == "Player")
         {
+            myRigitBody.velocity = Vector3.zero;
             isCaught = true;
-            Tornado = collision.gameObject;
         }
-            
+    }
+
+    private void Awake()
+    {
+        Tornado = GameObject.FindGameObjectWithTag("Player");
     }
 
     private void Start()
     {
+        tornadoForce = Tornado.GetComponent<TornadoForce>();
         myRigitBody = GetComponent<Rigidbody>();
         myCollision = GetComponent<Collider>();
     }
@@ -36,23 +41,27 @@ public class caughtObject : MonoBehaviour
 
     IEnumerator pullForce()
     {
-
-        if (isCaught)
+        if(Physics.CheckSphere(Tornado.transform.position, tornadoForce.forceRadius + 1, tornadoForce.objectLayer))
         {
-            myCollision.isTrigger = true;
-            myRigitBody.useGravity = false;
-            Vector3 pullDir = Tornado.transform.position - transform.position;
 
-            myRigitBody.AddForce(pullDir * pullSpeed, ForceMode.Impulse);
-            myRigitBody.AddForce(Vector3.left * (pullSpeed - 1), ForceMode.Impulse);
-            myRigitBody.AddForce(Vector3.up * pullSpeed, ForceMode.Impulse);
+            if (isCaught)
+            {
+                myCollision.isTrigger = true;
+                Vector3 pullDir = Tornado.transform.position - transform.position;
 
-            transform.localScale = Vector3.Lerp(transform.localScale, transform.localScale / 2, Time.deltaTime);
+                transform.parent = Tornado.transform;
+                myRigitBody.useGravity = false;
 
-            if (transform.localScale.x < 0.05f)
-                gameObject.SetActive(false);
+                myRigitBody.AddForce(pullDir * pullSpeed * 3, ForceMode.Force);
+                myRigitBody.AddForce(Vector3.up * pullSpeed * 5, ForceMode.Force);
+
+                transform.localScale = Vector3.Lerp(transform.localScale, transform.localScale / 2, Time.deltaTime);
+
+                if (transform.localScale.x < 0.05f)
+                    gameObject.SetActive(false);
+            }
+
         }
-
         yield return new WaitForSeconds(0.01f);
     }
 }
