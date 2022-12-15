@@ -129,3 +129,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pullSpeed: 1.5
   isCaught: 0
+  borderX: 9.5
+  borderZ: 9.5

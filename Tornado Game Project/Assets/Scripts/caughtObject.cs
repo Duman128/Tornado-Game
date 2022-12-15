@@ -13,10 +13,14 @@ public class caughtObject : MonoBehaviour
     public bool isCaught;
     TornadoForce tornadoForce;
 
+    public float borderX;
+    public float borderZ;
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.tag == "Player")
         {
+            UIManager.skor++;
             myRigitBody.velocity = Vector3.zero;
             isCaught = true;
         }
@@ -32,11 +36,16 @@ public class caughtObject : MonoBehaviour
         tornadoForce = Tornado.GetComponent<TornadoForce>();
         myRigitBody = GetComponent<Rigidbody>();
         myCollision = GetComponent<Collider>();
+
+        //borderX = CharacterMovment.xBorderValue;
+        //borderZ = CharacterMovment.zBorderValue;
     }
 
     private void FixedUpdate()
     {
+        CharacterMovment.BorderTransform(transform, borderX, borderZ);
         StartCoroutine(pullForce());
+        
     }
 
     IEnumerator pullForce()
@@ -60,6 +69,12 @@ public class caughtObject : MonoBehaviour
                 if (transform.localScale.x < 0.05f)
                     gameObject.SetActive(false);
             }
+            else
+            {
+                myRigitBody.useGravity = true;
+                myCollision.isTrigger = false;
+            }
+
 
         }
         yield return new WaitForSeconds(0.01f);
