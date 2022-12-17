@@ -1,2 +1,3 @@
 # Tornado-Game!
-![Alt Text](file:///C:/Users/duman/OneDrive/Masa%C3%BCst%C3%BC/ezgif-4-dc922b017c.gif)
+
+![](https://github.com/Duman128/Tornado-Game/blob/main/ezgif-4-dc922b017c.gif)
