@@ -5,21 +5,40 @@ using UnityEngine;
 
 public class CharacterMovment : MonoBehaviour
 {
-    public float speed = 5;
-    Rigidbody rb;
 
+    private Touch Touch;
+    public float speedModifier;
+
+    public float speed = 5;
     public float xBorderValue;
     public float zBorderValue;
 
-    private void Awake()
+    private void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        speedModifier = 0.01f;
     }
 
     private void Update()
     {
+        handMovement();
         Movement(speed);
         BorderTransform(transform ,xBorderValue, zBorderValue);
+    }
+
+    private void handMovement()
+    {
+        if(Input.touchCount > 0)
+        {
+            Touch = Input.GetTouch(0);
+            if(Touch.phase == TouchPhase.Moved)
+            {
+                transform.position = new Vector3(
+                    transform.position.x + Touch.deltaPosition.x * speedModifier,
+                    transform.position.y,
+                    transform.position.z + Touch.deltaPosition.y * speedModifier
+                    );
+            }
+        }
     }
 
     private void Movement(float moveSpeed)
