@@ -19,7 +19,7 @@ public class CharacterMovment : MonoBehaviour
         
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         handMovement();
         Movement(speed);

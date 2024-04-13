@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
 
     private void Awake(){
         skor = 0;
+        finalScor = 0;
         Time.timeScale = 1;
         gameOver.SetActive(false);
         audioSource.Play();
@@ -22,7 +23,9 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(finalScor);
         SkorUI.text = "SKOR: " + skor.ToString();
+        
         if(skor == finalScor)
             GameOver();
     }
