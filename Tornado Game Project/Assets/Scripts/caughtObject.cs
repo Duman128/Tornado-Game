@@ -29,6 +29,7 @@ public class caughtObject : MonoBehaviour
     private void Awake()
     {
         Tornado = GameObject.FindGameObjectWithTag("Player");
+        UIManager.finalScor++;
     }
 
     private void Start()

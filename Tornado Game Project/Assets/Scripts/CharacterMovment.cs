@@ -16,6 +16,7 @@ public class CharacterMovment : MonoBehaviour
     private void Start()
     {
         speedModifier = 0.01f;
+        
     }
 
     private void Update()
